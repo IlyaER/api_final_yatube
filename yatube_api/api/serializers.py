@@ -23,6 +23,7 @@ class CommentSerializer(serializers.ModelSerializer):
     author = serializers.SlugRelatedField(
         read_only=True, slug_field='username'
     )
+    post = SlugRelatedField(slug_field='id', read_only=True)
 
     class Meta:
         fields = '__all__'
@@ -30,13 +31,11 @@ class CommentSerializer(serializers.ModelSerializer):
 
 
 class FollowSerializer(serializers.ModelSerializer):
-    #following = serializers.CharField(source='author')
-    #following = serializers.SlugRelatedField(slug_field='username', queryset=User.objects.all())
-    following = serializers.CharField(source='following.username')
+    following = serializers.SlugRelatedField(slug_field='username', queryset=User.objects.all())
     user = serializers.CharField(source='user.username', read_only=True)
 
-    #def create(self, validated_data):
-    #    return Follow.objects.create(**validated_data)
+    def create(self, validated_data):
+        return Follow.objects.create(**validated_data)
 
     def validate(self, data):
         user = self.context['request'].user
