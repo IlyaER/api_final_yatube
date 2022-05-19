@@ -1,8 +1,6 @@
+from posts.models import Comment, Follow, Group, Post, User
 from rest_framework import serializers
 from rest_framework.relations import SlugRelatedField
-
-
-from posts.models import Comment, Follow, Group, Post, User
 
 
 class PostSerializer(serializers.ModelSerializer):
@@ -31,7 +29,10 @@ class CommentSerializer(serializers.ModelSerializer):
 
 
 class FollowSerializer(serializers.ModelSerializer):
-    following = serializers.SlugRelatedField(slug_field='username', queryset=User.objects.all())
+    following = serializers.SlugRelatedField(
+        slug_field='username',
+        queryset=User.objects.all()
+    )
     user = serializers.CharField(source='user.username', read_only=True)
 
     def create(self, validated_data):
@@ -52,7 +53,6 @@ class FollowSerializer(serializers.ModelSerializer):
                 "Вы уже подписаны на этого автора"
             )
         return data
-
 
     class Meta:
         fields = ('user', 'following')

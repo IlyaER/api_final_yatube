@@ -8,16 +8,16 @@ class Group(models.Model):
     title = models.CharField(max_length=200)
     slug = models.SlugField(
         unique=True,
-        #verbose_name='ссылка на адрес группы'
+        verbose_name='ссылка на адрес группы'
     )
     description = models.TextField()
 
     def __str__(self):
         return self.title
 
-    #class Meta:
-    #    verbose_name = 'Группа'
-    #    verbose_name_plural = 'Группы'
+    class Meta:
+        verbose_name = 'Группа'
+        verbose_name_plural = 'Группы'
 
 
 class Post(models.Model):
@@ -46,19 +46,17 @@ class Comment(models.Model):
         'Дата добавления', auto_now_add=True, db_index=True)
 
 
-
-
 class Follow(models.Model):
     user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-    #    verbose_name='Подписчик',
+        verbose_name='Подписчик',
         related_name='follower'
     )
     following = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-    #    verbose_name='Хозяин подписки',
+        verbose_name='Хозяин подписки',
         related_name='following'
     )
 
